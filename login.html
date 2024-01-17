@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Iniciar Sesión</title>
+</head>
+<body>
+    <header>
+        <h1>ASIX Projecte</h1>
+        <nav class="top-nav">
+            <div class="menu-container">
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="register.html">Registrarse</a></li>
+                    <li><a href="subir.html">Subir</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="login-section">
+        <div class="login-container">
+            <h2>Inicie Sesión</h2>
+            <form action="conexion_login.php" method="post">
+                <label for="nickname">Nombre de Usuario:</label>
+                <input type="text" id="nickname" name="nickname" required>
+
+                <label for="contrasena">Contraseña:</label>
+                <input type="contrasena" id="contrasena" name="contrasena" required>
+
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p class="small">ProyectoSintesis &copy; 2023. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
+
