@@ -24,23 +24,15 @@
         <div class="upload-column">
             <div class="start-box">
                 <p>Subir Archivo</p>
-                <button class="start-button">Start</button>
+                <form action="upload_file.php" method="post" enctype="multipart/form-data">
+                    <input type="file" name="fileToUpload" id="fileToUpload">
+                    <button type="submit" class="start-button" name="submit">Start</button>
+                </form>
             </div>
         </div>
 
-        <div class="upload-column">
-            <div class="start-box">
-                <p>Subir Carpeta</p>
-                <button class="start-button">Start</button>
-            </div>
-        </div>
+       
 
-        <div class="upload-column">
-            <div class="start-box">
-                <p>Analizar Contenido</p>
-                <button class="start-button">Start</button>
-            </div>
-        </div>
     </section>
 
     <footer>
