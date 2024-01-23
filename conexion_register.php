@@ -4,31 +4,31 @@ $username = "admin";
 $password = "admin";
 $dbname = "usuarios";
 
-// Crear la conexión
+
 $mysqli = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar la conexión
+
 if ($mysqli->connect_error) {
     die("Conexión fallida: " . $mysqli->connect_error);
 }
 
-// Procesar datos del formulario 
+
+$nombre = $_REQUEST['nombre'];
+$apellido = $_REQUEST['apellido'];
 $nickname = $_REQUEST['nickname'];
-$contrasena = $_REQUEST['contrasena'];
+$contrasena = password_hash($_REQUEST['contrasena'], PASSWORD_DEFAULT);
 
-// Consulta preparada para obtener la contraseña almacenada en la base de datos
-$sql = "SELECT contrasena FROM usuarios WHERE nickname = '$nickname'"; 
-$result = $mysqli->query($sql);
-$row = $result->fetch_assoc();
-$contrasena_guardada=$row["contrasena"];
 
-// Verificar la contraseña
-if (password_verify($contrasena, $contrasena_guardada)) {
-    echo "Inicio de sesión exitoso";
+$sql ="INSERT INTO usuarios (nombre, apellido, nickname, contrasena) VALUES ('$nombre','$apellido','$nickname','$contrasena')";
+
+
+
+
+if ($mysqli->query($sql)) {
+    echo "Registro exitoso";
 } else {
-    echo "Error: Usuario o contraseña incorrectos";
+    echo "Error: " . $sql->error;
 }
-
 $mysqli->close();
 ?>
 
@@ -38,7 +38,7 @@ $mysqli->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Iniciar Sesión</title>
+    <title>Registrarse</title>
 </head>
 <body>
     <header>
@@ -47,7 +47,7 @@ $mysqli->close();
             <div class="menu-container">
                 <ul>
                     <li><a href="index.html">Inicio</a></li>
-                    <li><a href="conexion_register.php">Registrarse</a></li>
+                    <li><a href="conexion_login.php">Log In</a></li>
                     <li><a href="subir.html">Subir</a></li>
                 </ul>
             </div>
@@ -56,15 +56,21 @@ $mysqli->close();
 
     <section class="login-section">
         <div class="login-container">
-            <h2>Inicie Sesión</h2>
+            <h2>Ingrese sus Datos</h2>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                <label for="nickname">Nombre de Usuario:</label>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="apellido">Apellidos:</label>
+                <input type="text" id="apellido" name="apellido" required>
+
+                <label for="nickname">Nickname:</label>
                 <input type="text" id="nickname" name="nickname" required>
 
                 <label for="contrasena">Contraseña:</label>
-                <input type="contrasena" id="contrasena" name="contrasena" required>
+                <input type="password" id="contrasena" name="contrasena" required>
 
-                <button type="submit">Iniciar Sesión</button>
+                <button type="submit">Registrarse</button>
             </form>
         </div>
     </section>
