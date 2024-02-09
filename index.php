@@ -9,6 +9,17 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Mi Página de Inicio</title>
+
+    <style>
+        .user-info {
+            opacity: 0; /* Inicialmente oculto */
+            transition: opacity 0.5s ease; /* Transición de opacidad */
+        }
+        .user-info.show {
+            opacity: 1; /* Mostrar el nombre de usuario */
+        }
+    </style>
+    
 </head>
 <body>
     <header>
