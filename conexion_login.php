@@ -1,4 +1,6 @@
 <?php
+session_start(); 
+
 $servername = "127.0.0.1";
 $username = "admin";
 $password = "admin";
@@ -47,9 +49,9 @@ $mysqli->close();
         <nav class="top-nav">
             <div class="menu-container">
                 <ul>
-                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="index.php">Inicio</a></li>
                     <li><a href="conexion_register.php">Registrarse</a></li>
-                    <li><a href="subir.html">Subir</a></li>
+                    <li><a href="subir.php">Subir</a></li>
                 </ul>
             </div>
             <?php
