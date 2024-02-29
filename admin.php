@@ -15,8 +15,8 @@ if ($mysqli->connect_error) {
 }
 
 // Procesar datos del formulario 
-$nickname = $_POST['nickname']; // Cambiado de $_REQUEST a $_POST
-$contrasena = $_POST['contrasena']; // Cambiado de $_REQUEST a $_POST
+$nickname = $_REQUEST['nickname']; 
+$contrasena = $_REQUEST['contrasena']; 
 
 // Consulta preparada para obtener la contraseña almacenada en la base de datos
 $sql = "SELECT contrasena FROM usuarios WHERE nickname = '$nickname'"; 
@@ -32,9 +32,6 @@ if (password_verify($contrasena, $contrasena_guardada)) {
 } else {
     echo "Error: Usuario o contraseña incorrectos";
 }
-
-
-$stmt->close();
 $mysqli->close();
 ?>
 
