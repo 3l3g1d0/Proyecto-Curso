@@ -24,8 +24,8 @@ $result = $mysqli->query($sql);
 $row = $result->fetch_assoc();
 $contrasena_guardada=$row["contrasena"];
 
-// Verificar la contraseña
-if (password_verify($contrasena, $contrasena_guardada)) {
+// Verificar la contraseña sin usar hash
+if ($contrasena === $contrasena_guardada) {
     echo "Inicio de sesión exitoso";
     $_SESSION['nickname'] = $nickname; // Almacena el nombre de usuario en la sesión
     header("Location: configuracion.php"); // Redirigir al usuario a la página de configuración
@@ -45,7 +45,7 @@ $mysqli->close();
 </head>
 <body>
     <header>
-        <h1>Panel administrativo administrador</h1>
+        <h1>Panel administrativo</h1>
         <nav class="top-nav">
             <?php
             // Muestra el nombre de usuario si está presente en la sesión
