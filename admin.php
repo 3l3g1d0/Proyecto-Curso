@@ -4,7 +4,7 @@ session_start(); // Iniciar la sesión
 $servername = "127.0.0.1";
 $username = "admin";
 $password = "admin";
-$dbname = "administradores";
+$dbname = "usuarios";
 
 // Crear la conexión
 $mysqli = new mysqli($servername, $username, $password, $dbname);
