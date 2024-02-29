@@ -19,7 +19,7 @@ $nickname = $_REQUEST['nickname'];
 $contrasena = $_REQUEST['contrasena']; 
 
 // Consulta preparada para obtener la contraseña almacenada en la base de datos
-$sql = "SELECT contrasena FROM usuarios WHERE nickname = '$nickname'"; 
+$sql = "SELECT contrasena FROM administradores WHERE nickname = '$nickname'"; 
 $result = $mysqli->query($sql);
 $row = $result->fetch_assoc();
 $contrasena_guardada=$row["contrasena"];
