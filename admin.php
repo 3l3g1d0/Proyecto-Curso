@@ -19,18 +19,24 @@ $nickname = $_REQUEST['nickname'];
 $contrasena = $_REQUEST['contrasena']; 
 
 // Consulta preparada para obtener la contraseña almacenada en la base de datos
-$sql = "SELECT contrasena FROM usuarios WHERE nickname = '$nickname'"; 
+$sql = "SELECT contrasena FROM administrador WHERE nickname = '$nickname'"; 
 $result = $mysqli->query($sql);
-$row = $result->fetch_assoc();
-$contrasena_guardada=$row["contrasena"];
 
-// Verificar la contraseña sin usar hash
-if ($contrasena === $contrasena_guardada) {
-    echo "Inicio de sesión exitoso";
-    //$_SESSION['nickname'] = $nickname; // Almacena el nombre de usuario en la sesión
-    //header("Location: configuracion.php"); // Redirigir al usuario a la página de configuración
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $contrasena_guardada = $row["contrasena"];
+
+    // Verificar la contraseña sin usar hash
+    if ($contrasena === $contrasena_guardada) {
+        echo "Inicio de sesión exitoso";
+        $_SESSION['nickname'] = $nickname; // Almacena el nombre de usuario en la sesión
+        header("Location: configuracion.php"); // Redirigir al usuario a la página de configuración
+        exit;
+    } else {
+        echo "Error: Usuario o contraseña incorrectos";
+    }
 } else {
-    echo "Error: Usuario o contraseña incorrectos";
+    echo "Error: Usuario no encontrado";
 }
 $mysqli->close();
 ?>
