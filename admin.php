@@ -1,40 +1,43 @@
 <?php
-session_start(); // Iniciar la sesión
 
-$servername = "127.0.0.1";
-$username = "admin";
-$password = "admin";
-$dbname = "usuarios";
+if (isset($_REQUEST['nickname'])) {
+    session_start(); 
 
-// Crear la conexión
-$mysqli = new mysqli($servername, $username, $password, $dbname);
+    $servername = "127.0.0.1";
+    $username = "admin";
+    $password = "admin";
+    $dbname = "usuarios";
 
-// Verificar la conexión
-if ($mysqli->connect_error) {
-    die("Conexión fallida: " . $mysqli->connect_error);
+
+    $mysqli = new mysqli($servername, $username, $password, $dbname);
+
+
+    if ($mysqli->connect_error) {
+        die("Conexión fallida: " . $mysqli->connect_error);
+    }
+
+
+    $nickname = $_REQUEST['nickname']; 
+    $contrasena = $_REQUEST['contrasena']; 
+
+
+    $sql = "SELECT contrasena FROM administradores WHERE nickname = '$nickname'"; 
+    $result = $mysqli->query($sql);
+
+    $row = $result->fetch_assoc();
+    $contrasena_guardada=$row["contrasena"];
+
+
+    if ($contrasena === $contrasena_guardada) {
+        echo "Inicio de sesión exitoso";
+        $_SESSION['nickname'] = $nickname; 
+        header("Location: configuracion.php");
+        exit;
+    } else {
+        echo "Error: Usuario o contraseña incorrectos";
+    }
+    $mysqli->close();
 }
-
-// Procesar datos del formulario 
-$nickname = $_REQUEST['nickname']; 
-$contrasena = $_REQUEST['contrasena']; 
-
-// Consulta preparada para obtener la contraseña almacenada en la base de datos
-$sql = "SELECT contrasena FROM administrador WHERE nickname = '$nickname'"; 
-$result = $mysqli->query($sql);
-
-$row = $result->fetch_assoc();
-$contrasena_guardada=$row["contrasena"];
-
-// Verificar la contraseña sin usar hash
-if ($contrasena === $contrasena_guardada) {
-    echo "Inicio de sesión exitoso";
-    $_SESSION['nickname'] = $nickname; // Almacena el nombre de usuario en la sesión
-    header("Location: configuracion.php"); // Redirigir al usuario a la página de configuración
-    exit;
-} else {
-    echo "Error: Usuario o contraseña incorrectos";
-}
-$mysqli->close();
 ?>
 
 <!DOCTYPE html>
