@@ -3,7 +3,7 @@ session_start();
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['nickname'])) {
-    header("Location: admin.php"); // Redirigir al usuario al formulario de inicio de sesión
+    echo "Acceso denegado. <a href='admin.php'>Volver al inicio de sesión</a>";
     exit();
 }
 ?>
