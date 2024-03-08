@@ -1,38 +1,39 @@
 <?php
-session_start(); 
+if (isset($_REQUEST['nickname'])) {
+    session_start(); 
 
-$servername = "127.0.0.1";
-$username = "admin";
-$password = "admin";
-$dbname = "usuarios";
+    $servername = "127.0.0.1";
+    $username = "admin";
+    $password = "admin";
+    $dbname = "usuarios";
 
-// Crear la conexión
-$mysqli = new mysqli($servername, $username, $password, $dbname);
+    // Crear la conexión
+    $mysqli = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar la conexión
-if ($mysqli->connect_error) {
-    die("Conexión fallida: " . $mysqli->connect_error);
+    // Verificar la conexión
+    if ($mysqli->connect_error) {
+        die("Conexión fallida: " . $mysqli->connect_error);
+    }
+
+    // Procesar datos del formulario 
+    $nickname = $_REQUEST['nickname'];
+    $contrasena = $_REQUEST['contrasena'];
+
+    // Consulta preparada para obtener la contraseña almacenada en la base de datos
+    $sql = "SELECT contrasena FROM usuarios WHERE nickname = '$nickname'"; 
+    $result = $mysqli->query($sql);
+    $row = $result->fetch_assoc();
+    $contrasena_guardada=$row["contrasena"];
+
+    // Verificar la contraseña
+    if (password_verify($contrasena, $contrasena_guardada)) {
+        echo "Inicio de sesión exitoso";
+        $_SESSION['nickname'] = $nickname; // Almacena el nombre de usuario en la sesión
+    } else {
+        echo "Error: Usuario o contraseña incorrectos";
+    }
+    $mysqli->close();
 }
-
-// Procesar datos del formulario 
-$nickname = $_REQUEST['nickname'];
-$contrasena = $_REQUEST['contrasena'];
-
-// Consulta preparada para obtener la contraseña almacenada en la base de datos
-$sql = "SELECT contrasena FROM usuarios WHERE nickname = '$nickname'"; 
-$result = $mysqli->query($sql);
-$row = $result->fetch_assoc();
-$contrasena_guardada=$row["contrasena"];
-
-// Verificar la contraseña
-if (password_verify($contrasena, $contrasena_guardada)) {
-    echo "Inicio de sesión exitoso";
-    $_SESSION['nickname'] = $nickname; // Almacena el nombre de usuario en la sesión
-} else {
-    echo "Error: Usuario o contraseña incorrectos";
-}
-
-$mysqli->close();
 ?>
 
 <!DOCTYPE html>
@@ -42,17 +43,6 @@ $mysqli->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Iniciar Sesión</title>
-
-    <style>
-        .user-info {
-            opacity: 0; /* Inicialmente oculto */
-            transition: opacity 0.5s ease; /* Transición de opacidad */
-        }
-        .user-info.show {
-            opacity: 1; /* Mostrar el nombre de usuario */
-        }
-    </style>
-    
 </head>
 <body>
     <header>
