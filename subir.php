@@ -30,6 +30,7 @@ session_start();
                     <li><a href="index.php">Inicio</a></li>
                     <li><a href="conexion_login.php">Log In</a></li>
                     <li><a href="conexion_register.php">Registro</a></li>
+                    <li><a href="mis-archivos.php">Mis archivos</a></li>
                 </ul>
             </div>
             <?php
