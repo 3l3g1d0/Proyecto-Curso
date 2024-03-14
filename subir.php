@@ -1,7 +1,13 @@
 <?php
 session_start();
+ 
+// Verificar si el usuario está autenticado
+if (!isset($_SESSION['nickname'])) {
+    echo "Acceso denegado. <a href='conexion_login.php'>Volver al login</a>";
+    exit();
+}
 ?>
-
+ 
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,7 +15,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Subir Archivos</title>
-
+ 
     <style>
         .user-info {
             opacity: 0; /* Inicialmente oculto */
@@ -19,7 +25,7 @@ session_start();
             opacity: 1; /* Mostrar el nombre de usuario */
         }
     </style>
-    
+   
 </head>
 <body>
     <header>
@@ -30,7 +36,6 @@ session_start();
                     <li><a href="index.php">Inicio</a></li>
                     <li><a href="conexion_login.php">Log In</a></li>
                     <li><a href="conexion_register.php">Registro</a></li>
-                    <li><a href="mis-archivos.php">Mis archivos</a></li>
                 </ul>
             </div>
             <?php
@@ -41,7 +46,7 @@ session_start();
             ?>
         </nav>
     </header>
-
+ 
     <section class="upload-section">
         <div class="upload-column">
             <div class="start-box">
@@ -52,11 +57,11 @@ session_start();
                 </form>
             </div>
         </div>
-
+ 
        
-
+ 
     </section>
-
+ 
     <footer>
         <p class="small">ProyectoSintesis &copy; 2023. Todos los derechos reservados.</p>
     </footer>
