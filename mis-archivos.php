@@ -1,6 +1,9 @@
 <?php
 session_start();
-
+if (!isset($_SESSION['nickname'])) {
+    echo "Acceso denegado. <a href='conexion_login.php'>Volver al login</a>";
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
