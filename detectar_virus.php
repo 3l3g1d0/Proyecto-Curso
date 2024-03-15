@@ -3,12 +3,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["archivo"])) {
     $target_file = $_GET["archivo"];
 
     $python_executable = "python.exe"; 
-    $python_script = "C:\\Users\\cf2022336\\Downloads\\laragon\\www\\PaginaWebProyecto\\proyecto_definitivo.py"; 
-    $command = $python_executable . " " . $python_script . " " . escapeshellarg($target_file);
-    
-    $output = shell_exec($command);
+    //$python_script = "C:\\Users\\cf2022336\\Downloads\\laragon\\www\\paginawebproyecto\\proyecto_definitivo.py"; 
+    $python_script = "C:/Users/cf2022336/Downloads/laragon/www/paginawebproyecto/proyecto_definitivo.py"; 
+    $command = $python_executable . " " . $python_script . " " . escapeshellarg($target_file); echo $command;
+   
+    $output = exec($command);
 
-    echo "Resultado de la detección de virus: " . $output;
+    echo "Resultado de la detección de virus: " . $output . "!";
 } else {
     echo "Error: Archivo no especificado.";
 }
