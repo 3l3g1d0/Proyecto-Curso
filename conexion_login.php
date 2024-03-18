@@ -7,19 +7,19 @@ if (isset($_REQUEST['nickname'])) {
     $password = "admin";
     $dbname = "usuarios";
 
-    // Crear la conexión
+    
     $mysqli = new mysqli($servername, $username, $password, $dbname);
 
-    // Verificar la conexión
+   
     if ($mysqli->connect_error) {
         die("Conexión fallida: " . $mysqli->connect_error);
     }
 
-    // Procesar datos del formulario 
+    
     $nickname = $_REQUEST['nickname'];
     $contrasena = $_REQUEST['contrasena'];
 
-    // Consulta preparada para obtener la contraseña almacenada en la base de datos
+   
     $sql = "SELECT contrasena FROM usuarios WHERE nickname = '$nickname'"; 
     $result = $mysqli->query($sql);
     $row = $result->fetch_assoc();
@@ -28,7 +28,7 @@ if (isset($_REQUEST['nickname'])) {
     // Verificar la contraseña
     if (password_verify($contrasena, $contrasena_guardada)) {
         echo "Inicio de sesión exitoso";
-        $_SESSION['nickname'] = $nickname; // Almacena el nombre de usuario en la sesión
+        $_SESSION['nickname'] = $nickname; 
     } else {
         echo "Error: Usuario o contraseña incorrectos";
     }
@@ -57,7 +57,7 @@ if (isset($_REQUEST['nickname'])) {
                 </ul>
             </div>
             <?php
-            // Muestra el nombre de usuario si está presente en la sesión
+            
             if (isset($_SESSION['nickname'])) {
                 echo '<div class="user-info">' . $_SESSION['nickname'] . '</div>';
             }
