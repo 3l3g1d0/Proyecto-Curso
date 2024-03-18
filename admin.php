@@ -53,7 +53,6 @@ if (isset($_REQUEST['nickname'])) {
         <h1>Panel administrativo</h1>
         <nav class="top-nav">
             <?php
-            // Muestra el nombre de usuario si está presente en la sesión
             if (isset($_SESSION['nickname'])) {
                 echo '<div class="user-info">' . $_SESSION['nickname'] . '</div>';
             }
