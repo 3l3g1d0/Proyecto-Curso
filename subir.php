@@ -1,7 +1,7 @@
 <?php
 session_start();
  
-// Verificar si el usuario está autenticado
+
 if (!isset($_SESSION['nickname'])) {
     echo "Acceso denegado. <a href='conexion_login.php'>Volver al login</a>";
     exit();
@@ -18,11 +18,11 @@ if (!isset($_SESSION['nickname'])) {
  
     <style>
         .user-info {
-            opacity: 0; /* Inicialmente oculto */
-            transition: opacity 0.5s ease; /* Transición de opacidad */
+            opacity: 0;
+            transition: opacity 0.5s ease; 
         }
         .user-info.show {
-            opacity: 1; /* Mostrar el nombre de usuario */
+            opacity: 1; 
         }
     </style>
    
@@ -39,7 +39,7 @@ if (!isset($_SESSION['nickname'])) {
                 </ul>
             </div>
             <?php
-            // Muestra el nombre de usuario si está presente en la sesión
+            
             if (isset($_SESSION['nickname'])) {
                 echo '<div class="user-info">' . $_SESSION['nickname'] . '</div>';
             }
