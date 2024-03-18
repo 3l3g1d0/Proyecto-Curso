@@ -55,6 +55,7 @@ if (!isset($_SESSION['nickname'])) {
             window.location.href = 'mis-archivos.php?action=get_files'; // Hacer una solicitud al servidor para obtener la lista de archivos
         }
     </script>
+    
     <?php
     if(isset($_GET['action']) && $_GET['action'] == 'get_files') {
         // Verificar si el usuario ha iniciado sesión y si se ha establecido el nickname en la sesión
