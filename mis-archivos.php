@@ -14,11 +14,11 @@ if (!isset($_SESSION['nickname'])) {
     <title>Mi Página de Inicio</title>
     <style>
         .user-info {
-            opacity: 0; /* Inicialmente oculto */
-            transition: opacity 0.5s ease; /* Transición de opacidad */
+            opacity: 0; 
+            transition: opacity 0.5s ease; 
         }
         .user-info.show {
-            opacity: 1; /* Mostrar el nombre de usuario */
+            opacity: 1; 
         }
     </style>
 </head>
@@ -35,7 +35,7 @@ if (!isset($_SESSION['nickname'])) {
                 </ul>
             </div>
             <?php
-            // Muestra el nombre de usuario si está presente en la sesión
+            
             if (isset($_SESSION['nickname'])) {
                 echo '<div class="user-info">' . $_SESSION['nickname'] . '</div>';
             }
@@ -46,31 +46,30 @@ if (!isset($_SESSION['nickname'])) {
         <div class="upload-column">
             <div class="start-box">
                 <p>Mis archivos</p>
-                <button type="button" class="start-button" onclick="openFolder()">Recoger</button>
+                <a type="button" class="start-button" href="./mis-archivos.php?action=get_files">Recoger</a>
             </div>
         </div>
-    </section>
+
     <script>
         function openFolder() {
-            window.location.href = 'mis-archivos.php?action=get_files'; // Hacer una solicitud al servidor para obtener la lista de archivos
+            window.location.href = 'mis-archivos.php?action=get_files'; 
         }
     </script>
-    
     <?php
     if(isset($_GET['action']) && $_GET['action'] == 'get_files') {
-        // Verificar si el usuario ha iniciado sesión y si se ha establecido el nickname en la sesión
+        
         if (isset($_SESSION['nickname'])) {
             $nickname = $_SESSION['nickname'];
 
-            // Construir la ruta de la carpeta basada en el nickname
-            $dir = 'C:\\users\\cf2020236\\Downloads\\laragon\\www\\usuarios\\' . $nickname;
+            
+            $dir = 'C:\\users\\cf2022336\\Downloads\\laragon\\www\\usuarios\\' . $nickname;
 
-            // Verificar si la carpeta existe
+            
             if (is_dir($dir)) {
-                // Abrir la carpeta
+                
                 $files = scandir($dir);
 
-                // Mostrar los archivos en la carpeta
+                
                 echo "<h2>Archivos en la carpeta $nickname:</h2>";
                 echo "<ul>";
                 foreach ($files as $file) {
@@ -86,7 +85,11 @@ if (!isset($_SESSION['nickname'])) {
             echo "<p>No se ha iniciado sesión o no se ha establecido un nickname.</p>";
         }
     }
+    else{
+        echo "";
+    }
     ?>
+    </section>
     <footer>
         <p class="small">ProyectoSintesis &copy; 2023. Todos los derechos reservados.</p>
     </footer>
