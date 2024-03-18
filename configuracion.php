@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Verificar si el usuario está autenticado
 if (!isset($_SESSION['nickname'])) {
     echo "Acceso denegado. <a href='admin.php'>Volver al inicio de sesión</a>";
     exit();
