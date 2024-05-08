@@ -1,13 +1,91 @@
 <?php
 session_start();
- 
-
 if (!isset($_SESSION['nickname'])) {
     echo "Acceso denegado. <a href='conexion_login.php'>Volver al login</a>";
     exit();
 }
 ?>
- 
+<?php
+if (isset($_SESSION['nickname'])) {
+   
+    $servername = "127.0.0.1";
+    $username = "admin";
+    $password = "admin";
+    $dbname = "usuarios";
+
+    // Crear conexión
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Verificar la conexión
+    if ($conn->connect_error) {
+        die("Conexión fallida: " . $conn->connect_error);
+    }
+
+    // Obtener el ID del usuario basado en el nickname
+    $nickname = $_SESSION['nickname'];
+    $sql = "SELECT id FROM usuarios WHERE nombre = '".$nickname."'";
+    $result = $conn->query($sql);
+    
+    // Verificar si se encontró el usuario
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        // Guardar el ID del usuario en una variable de sesión
+        $_SESSION['id_usuario'] = $row["id"];
+        // Mostrar el ID del usuario por pantalla
+        //echo "ID de usuario: " . $row['id'];
+    } else {
+        echo "Usuario no encontrado.";
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    
+    if (isset($_SESSION['id_usuario'])) {
+        $idUsuario = $_SESSION['id_usuario'];
+
+        $servername = "127.0.0.1";
+        $username = "admin";
+        $password = "admin";
+        $dbname = "usuarios";
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        if ($conn->connect_error) {
+            die("Conexión fallida: " . $conn->connect_error);
+        }
+
+        if (is_uploaded_file($_FILES['imagen']['tmp_name']))
+        {
+            $nombreDirectorio="C:\Users\cf2022336\Downloads\laragon\www";
+            $nombreFichero = $_FILES['imagen']['name'];
+            $fileSize = $_FILES['imagen']['size'];
+            $fileExtension = pathinfo($nombreFichero, PATHINFO_EXTENSION);
+            move_uploaded_file ($_FILES['imagen']['tmp_name'],
+                $nombreDirectorio . "\archivos\\" . $nombreFichero); 
+            
+            $sql = "INSERT INTO archivos (nombre_archivo, tamaño, extension, idUsuario) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+
+            $stmt->bind_param("sisi", $nombreFichero, $fileSize, $fileExtension, $idUsuario);
+        
+            if ($stmt->execute() === TRUE) {
+                echo "El archivo se ha subido correctamente.";
+            } else {
+                echo "Error al subir el archivo: " . $stmt->error;
+            }
+
+            $stmt->close();
+        } else {
+            echo "No se ha podido subir el archivo\n";
+        }
+
+    } else {
+        echo "ID de usuario no encontrado.";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,17 +93,6 @@ if (!isset($_SESSION['nickname'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Subir Archivos</title>
- 
-    <style>
-        .user-info {
-            opacity: 0;
-            transition: opacity 0.5s ease; 
-        }
-        .user-info.show {
-            opacity: 1; 
-        }
-    </style>
-   
 </head>
 <body>
     <header>
@@ -39,29 +106,26 @@ if (!isset($_SESSION['nickname'])) {
                 </ul>
             </div>
             <?php
-            
             if (isset($_SESSION['nickname'])) {
                 echo '<div class="user-info">' . $_SESSION['nickname'] . '</div>';
             }
             ?>
         </nav>
     </header>
- 
+
+    <!-- CASILLA ARCHIVO ------------------------------------------------------------------------------------------------------>
     <section class="upload-section">
         <div class="upload-column">
             <div class="start-box">
                 <p>Subir Archivo</p>
-                <form action="upload_file.php" method="post" enctype="multipart/form-data">
-                    <input type="file" name="fileToUpload" id="fileToUpload">
-                    <button type="submit" class="start-button" name="submit">Start</button>
+                <form action="" method="post" enctype="multipart/form-data">
+                    <input type="file" name="imagen" id="imagen">
+                    <button type="submit" class="start-button" name="submit">Subir</button>
                 </form>
             </div>
         </div>
- 
-       
- 
     </section>
- 
+    
     <footer>
         <p class="small">ProyectoSintesis &copy; 2023. Todos los derechos reservados.</p>
     </footer>
