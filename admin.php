@@ -53,6 +53,7 @@ if (isset($_REQUEST['nickname'])) {
         <h1>Panel administrativo</h1>
         <nav class="top-nav">
             <?php
+            
             if (isset($_SESSION['nickname'])) {
                 echo '<div class="user-info">' . $_SESSION['nickname'] . '</div>';
             }

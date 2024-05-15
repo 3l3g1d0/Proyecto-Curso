@@ -1,0 +1,102 @@
+/* Estilos Generales del Cuerpo de la Página */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h1, h3 {
+    color: #444;
+}
+
+/* Estilos para las Tablas */
+table {
+    border-collapse: collapse;
+    width: 80%;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f8f8f8;
+}
+
+/* Estilos para los Formularios */
+form {
+    padding: 20px;
+    background: white;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"], input[type="submit"] {
+    padding: 10px;
+    margin-top: 5px;
+    width: 95%;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+}
+
+input[type="submit"] {
+    background-color: #5c67f2;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #4a54e1;
+}
+
+/* Estilos para Links */
+a {
+    text-decoration: none;
+    color: #5c67f2;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    padding: 5px 10px;
+    background-color: #5c67f2; /* Color de fondo azul */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button a {
+    color: white; /* Asegura que el texto del enlace en el botón sea blanco */
+    text-decoration: none; /* Elimina el subrayado del enlace */
+}
+
+button a:hover {
+    text-decoration: underline; /* Añade subrayado al pasar el ratón para mejor accesibilidad */
+}
+
+button:hover {
+    background-color: #4a54e1; /* Color de fondo más oscuro al pasar el ratón */
+}
+

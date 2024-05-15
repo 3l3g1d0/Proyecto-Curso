@@ -23,6 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["archivo"])) {
 </head>
 <body>
     <h1>Detección de Virus</h1>
-  
+   
 </body>
 </html>

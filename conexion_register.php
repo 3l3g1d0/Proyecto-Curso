@@ -39,11 +39,11 @@ if (isset($_REQUEST['nickname'])) {
 
     <style>
         .user-info {
-            opacity: 0; /* Inicialmente oculto */
-            transition: opacity 0.5s ease; /* Transición de opacidad */
+            opacity: 0; 
+            transition: opacity 0.5s ease; 
         }
         .user-info.show {
-            opacity: 1; /* Mostrar el nombre de usuario */
+            opacity: 1; 
         }
     </style>
     

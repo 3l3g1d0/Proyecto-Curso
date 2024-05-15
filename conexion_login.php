@@ -10,22 +10,21 @@ if (isset($_REQUEST['nickname'])) {
     
     $mysqli = new mysqli($servername, $username, $password, $dbname);
 
-   
+    
     if ($mysqli->connect_error) {
         die("Conexión fallida: " . $mysqli->connect_error);
     }
 
-    
     $nickname = $_REQUEST['nickname'];
     $contrasena = $_REQUEST['contrasena'];
 
-   
+    
     $sql = "SELECT contrasena FROM usuarios WHERE nickname = '$nickname'"; 
     $result = $mysqli->query($sql);
     $row = $result->fetch_assoc();
     $contrasena_guardada=$row["contrasena"];
 
-    // Verificar la contraseña
+    
     if (password_verify($contrasena, $contrasena_guardada)) {
         echo "Inicio de sesión exitoso";
         $_SESSION['nickname'] = $nickname; 
@@ -73,7 +72,7 @@ if (isset($_REQUEST['nickname'])) {
                 <input type="text" id="nickname" name="nickname" required>
 
                 <label for="contrasena">Contraseña:</label>
-                <input type="contrasena" id="contrasena" name="contrasena" required>
+                <input type="password" id="contrasena" name="contrasena" required>
 
                 <button type="submit">Iniciar Sesión</button>
             </form>

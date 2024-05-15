@@ -31,7 +31,7 @@ session_start();
                 </ul>
             </div>
             <?php
-            
+           
             if (isset($_SESSION['nickname'])) {
                 echo '<div class="user-info">' . $_SESSION['nickname'] . '</div>';
             }
