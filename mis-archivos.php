@@ -63,6 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
          // Mostrar los resultados
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
+                echo "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------<br>";
+                //echo "id".$row["id_archivo"] . "<br>";
                 echo "Nombre de archivo: " . $row["nombre_archivo"] . "<br>";
                 echo "Tamaño: " . $row["tamaño"] . "<br>";
                 echo "Extensión: " . $row["extension"] . "<br>";
@@ -85,8 +87,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                     <button type="submit" name="compartir">Compartir</button>
                 </form>';
 
+                // Botón Eliminar------------------------------------------------------------------------------------------------------------
+                echo '
+                <form method="post" action="mis-archivos.php">
+                    <input type="hidden" name="id_archivo" value="'. $row["id_archivo"] . '">
+                    <button type="submit" name="eliminar">Eliminar</button>
+                </form>';
                 echo "<br><br>";
-                
             }
         } else {
             echo "No se encontraron archivos para este usuario.";
@@ -103,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['compartir'])) {
     $tipoArchivo = $_POST["extension"];
 
     $sql = "INSERT INTO archivos (nombre_archivo, tamaño, extension, idUsuario) VALUES (?, ?, ?, ?)";
-    echo $sql;
+    //echo $sql;
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sisi", $nombreArchivo, $fileSize, $tipoArchivo, $idUsuarioCompartir);
 
@@ -111,6 +118,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['compartir'])) {
         echo "Archivo compartido exitosamente.";
     } else {
         echo "Error al compartir el archivo: " . $stmt->error;
+    }
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
+    $id_archivo = $_POST['id_archivo'];
+
+    $sql = "DELETE FROM archivos WHERE id_archivo = ".$id_archivo;
+    echo $sql;
+    $stmt = $conn->prepare($sql);
+
+    if ($stmt->execute()) {
+        echo "Archivo eliminado exitosamente.";
+    } else {
+        echo "Error al elminar el archivo: " . $stmt->error;
     }
 }
 ?>
