@@ -76,30 +76,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 
                 // Botón Compartir------------------------------------------------------------------------------------------------------------
                 echo '
-                <form method="post">
+                <form method="post" action="mis-archivos.php">
                     <label for="idUsuario">Ingrese ID de Usuario:</label>
                     <input type="hidden" name="nombre_archivo" value="' . $row["nombre_archivo"] . '">
+                    <input type="hidden" name="tamaño" value="' . $row["tamaño"] . '">
+                    <input type="hidden" name="extension" value="' . $row["extension"] . '">
                     <input type="text" id="idUsuario" name="idUsuario">
                     <button type="submit" name="compartir">Compartir</button>
                 </form>';
 
                 echo "<br><br>";
-                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['compartir'])) {
-                    $idUsuarioCompartir = $_POST['idUsuario'];
-                    $nombreArchivo = $_POST['nombre_archivo'];
-                    $tamañoArchivo = $row["tamaño"];
-                    $tipoArchivo = $row["extension"];
-            
-                    $sql = "INSERT INTO archivos (nombre_archivo, tamaño, extension, idUsuarioCompartir) VALUES (?, ?, ?, ?)";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("sisi", $nombreArchivo, $tamañoArchivo, $tipoArchivo, $idUsuarioCompartir);
-            
-                    if ($stmt->execute()) {
-                        echo "Archivo compartido exitosamente.";
-                    } else {
-                        echo "Error al compartir el archivo: " . $stmt->error;
-                    }
-                }
                 
             }
         } else {
@@ -110,7 +96,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         echo "ID de usuario no encontrado.";
     }
 }
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['compartir'])) {
+    $idUsuarioCompartir = $_POST['idUsuario'];
+    $nombreArchivo = $_POST['nombre_archivo'];
+    $fileSize = $_POST["tamaño"];
+    $tipoArchivo = $_POST["extension"];
 
+    $sql = "INSERT INTO archivos (nombre_archivo, tamaño, extension, idUsuario) VALUES (?, ?, ?, ?)";
+    echo $sql;
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sisi", $nombreArchivo, $fileSize, $tipoArchivo, $idUsuarioCompartir);
+
+    if ($stmt->execute()) {
+        echo "Archivo compartido exitosamente.";
+    } else {
+        echo "Error al compartir el archivo: " . $stmt->error;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
