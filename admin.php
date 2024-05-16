@@ -4,8 +4,8 @@ if (isset($_REQUEST['nickname'])) {
     session_start(); 
 
     $servername = "127.0.0.1";
-    $username = "admin";
-    $password = "admin";
+    $username = "root";
+    $password = "";
     $dbname = "usuarios";
 
 

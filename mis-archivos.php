@@ -9,8 +9,8 @@ if (!isset($_SESSION['nickname'])) {
 if (isset($_SESSION['nickname'])) {
    
     $servername = "127.0.0.1";
-    $username = "admin";
-    $password = "admin";
+    $username = "root";
+    $password = "";
     $dbname = "usuarios";
 
     // Crear conexión
@@ -37,72 +37,7 @@ if (isset($_SESSION['nickname'])) {
         echo "Usuario no encontrado.";
     }
 }
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-    
-    if (isset($_SESSION['id_usuario'])) {
-        $idUsuario = $_SESSION['id_usuario'];
 
-        $servername = "127.0.0.1";
-        $username = "admin";
-        $password = "admin";
-        $dbname = "usuarios";
-
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        if ($conn->connect_error) {
-            die("Conexión fallida: " . $conn->connect_error);
-        }
-        
-        // Consulta SQL para seleccionar todos los archivos del usuario actual
-        $sql = "SELECT id_archivo, nombre_archivo, tamaño, extension FROM archivos WHERE idUsuario = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $idUsuario);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-         // Mostrar los resultados
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------<br>";
-                //echo "id".$row["id_archivo"] . "<br>";
-                echo "Nombre de archivo: " . $row["nombre_archivo"] . "<br>";
-                echo "Tamaño: " . $row["tamaño"] . "<br>";
-                echo "Extensión: " . $row["extension"] . "<br>";
-
-                // Botón Descargar------------------------------------------------------------------------------------------------------------
-                if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                    echo "<a target= 'blank' href='file:///C:\Users\cf2022336\Downloads\laragon\www\archivos\\" . $row["nombre_archivo"] . "'>Descargar</a>";
-                } else {
-                    echo "<a href='C:\Users\cf2022336\Downloads\laragon\www\paginawebproyecto\descargar.php?nombre_archivo=" . $row["nombre_archivo"] . "'><button>Descargar</button></a>";
-                }
-                
-                // Botón Compartir------------------------------------------------------------------------------------------------------------
-                echo '
-                <form method="post" action="mis-archivos.php">
-                    <label for="idUsuario">Ingrese ID de Usuario:</label>
-                    <input type="hidden" name="nombre_archivo" value="' . $row["nombre_archivo"] . '">
-                    <input type="hidden" name="tamaño" value="' . $row["tamaño"] . '">
-                    <input type="hidden" name="extension" value="' . $row["extension"] . '">
-                    <input type="text" id="idUsuario" name="idUsuario">
-                    <button type="submit" name="compartir">Compartir</button>
-                </form>';
-
-                // Botón Eliminar------------------------------------------------------------------------------------------------------------
-                echo '
-                <form method="post" action="mis-archivos.php">
-                    <input type="hidden" name="id_archivo" value="'. $row["id_archivo"] . '">
-                    <button type="submit" name="eliminar">Eliminar</button>
-                </form>';
-                echo "<br><br>";
-            }
-        } else {
-            echo "No se encontraron archivos para este usuario.";
-        }
-        $stmt->close();
-    } else {
-        echo "ID de usuario no encontrado.";
-    }
-}
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['compartir'])) {
     $idUsuarioCompartir = $_POST['idUsuario'];
     $nombreArchivo = $_POST['nombre_archivo'];
@@ -124,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
     $id_archivo = $_POST['id_archivo'];
 
     $sql = "DELETE FROM archivos WHERE id_archivo = ".$id_archivo;
-    echo $sql;
+    //echo $sql;
     $stmt = $conn->prepare($sql);
 
     if ($stmt->execute()) {
@@ -141,15 +76,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Mi Página de Inicio</title>
+    <link rel="stylesheet" href="styles4.css">
 </head>
 <body>
 <header>
+<?php
+                if (isset($_SESSION['nickname'])) {
+                    echo '<div class="user-info">Bienvenido: ' . $_SESSION['nickname'] . '</div>';
+                }
+            ?>
         <h1>ASIX Projecte - Mis Archivos</h1>
         <nav>
             <ul>
                 <li><a href="index.php">Inicio</a></li>
                 <li><a href="subir.php">Subir Archivo</a></li>
-               
             </ul>
         </nav>
     </header>
@@ -163,6 +103,76 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
                     <button type="submit" class="start-button" name="action" value="get_files">Recoger</button>
                 </form>
             </div>
+        </div>
+    </section>
+    <section class="container">
+        <div class="container">
+            <?php
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    
+                    if (isset($_SESSION['id_usuario'])) {
+                        $idUsuario = $_SESSION['id_usuario'];
+                
+                        $servername = "127.0.0.1";
+                        $username = "root";
+                        $password = "";
+                        $dbname = "usuarios";
+                
+                        $conn = new mysqli($servername, $username, $password, $dbname);
+                
+                        if ($conn->connect_error) {
+                            die("Conexión fallida: " . $conn->connect_error);
+                        }
+                        
+                        // Consulta SQL para seleccionar todos los archivos del usuario actual
+                        $sql = "SELECT id_archivo, nombre_archivo, tamaño, extension FROM archivos WHERE idUsuario = ?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $idUsuario);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                
+                         // Mostrar los resultados
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------<br>";
+                                //echo "id".$row["id_archivo"] . "<br>";
+                                echo "Nombre de archivo: " . $row["nombre_archivo"] . "<br>";
+                                echo "Tamaño: " . $row["tamaño"] . "<br>";
+                                echo "Extensión: " . $row["extension"] . "<br>";
+                
+                                // Botón Descargar------------------------------------------------------------------------------------------------------------
+                                
+                                echo "<button style='display: inline-block;'><a target= 'blank' href='file:///C:\laragon\www\archivos\\" . $row["nombre_archivo"] . "'>Descargar</a></button> ";
+                                
+                                
+                                // Botón Compartir------------------------------------------------------------------------------------------------------------
+                                echo '
+                                <form method="post" action="mis-archivos.php" style="display: inline-block;">
+                                    <label for="idUsuario">Ingrese ID de Usuario:</label>
+                                    <input type="hidden" name="nombre_archivo" value="' . $row["nombre_archivo"] . '">
+                                    <input type="hidden" name="tamaño" value="' . $row["tamaño"] . '">
+                                    <input type="hidden" name="extension" value="' . $row["extension"] . '">
+                                    <input type="text" id="idUsuario" name="idUsuario">
+                                    <button type="submit" name="compartir">Compartir</button>
+                                </form>';
+                
+                                // Botón Eliminar------------------------------------------------------------------------------------------------------------
+                                echo '
+                                <form method="post" action="mis-archivos.php" style="display: inline-block;">
+                                    <input type="hidden" name="id_archivo" value="'. $row["id_archivo"] . '">
+                                    <button type="submit" name="eliminar">Eliminar</button>
+                                </form>';
+                                echo "<br><br>";
+                            }
+                        } else {
+                            echo "No se encontraron archivos para este usuario.";
+                        }
+                        $stmt->close();
+                    } else {
+                        echo "ID de usuario no encontrado.";
+                    }
+                }
+            ?>
         </div>
     </section>
     <footer>

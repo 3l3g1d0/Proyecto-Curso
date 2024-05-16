@@ -1,10 +1,10 @@
 <?php
+session_start();
 if (isset($_REQUEST['nickname'])) {
-    session_start();
 
     $servername = "127.0.0.1";
-    $username = "admin";
-    $password = "admin";
+    $username = "root";
+    $password = "";
     $dbname = "usuarios";
 
     $mysqli = new mysqli($servername, $username, $password, $dbname);
@@ -36,20 +36,15 @@ if (isset($_REQUEST['nickname'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Registrarse</title>
-
-    <style>
-        .user-info {
-            opacity: 0; 
-            transition: opacity 0.5s ease; 
-        }
-        .user-info.show {
-            opacity: 1; 
-        }
-    </style>
     
 </head>
 <body>
     <header>
+    <?php
+                if (isset($_SESSION['nickname'])) {
+                    echo '<div class="user-info">Bienvenido: ' . $_SESSION['nickname'] . '</div>';
+                }
+            ?>
         <h1>ASIX Projecte</h1>
         <nav class="top-nav">
             <div class="menu-container">

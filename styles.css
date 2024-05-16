@@ -88,7 +88,7 @@ section.upload-section {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 80vh;
+    height: 35vh;
 }
 
 .upload-column {
@@ -128,4 +128,12 @@ footer {
 
 .small {
     font-size: 0.8em;
+}
+
+
+
+/*-USER INFO muetsra nombre de sesion para el user---------*/
+.user-info {
+    float: left; 
+    margin-left: 20px; 
 }

@@ -1,0 +1,89 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+.file {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.file:last-child {
+    border-bottom: none;
+}
+
+.file p {
+    margin: 5px 0;
+}
+
+.file a, .file button {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 5px 10px;
+    color: #fff;
+    background: #007bff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.file a:hover, .file button:hover {
+    background: #0056b3;
+}
+
+.file form {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.file input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.file input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.file button {
+    background: #28a745;
+}
+
+.file button[name="eliminar"] {
+    background: #dc3545;
+}
+
+.file button:hover {
+    background: #218838;
+}
+
+.file button[name="eliminar"]:hover {
+    background: #c82333;
+}
+
+.no-files {
+    text-align: center;
+    color: #777;
+    font-size: 18px;
+}

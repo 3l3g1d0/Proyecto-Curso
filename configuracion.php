@@ -41,8 +41,8 @@ if (!isset($_SESSION['nickname'])) {
             <?php
            
             $servername = "127.0.0.1";
-            $username = "admin";
-            $password = "admin";
+            $username = "root";
+            $password = "";
             $dbname = "usuarios";
            
             $conn = new mysqli($servername, $username, $password, $dbname);
