@@ -141,9 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
                                 echo "Extensión: " . $row["extension"] . "<br>";
                 
                                 // Botón Descargar------------------------------------------------------------------------------------------------------------
-                                
                                 echo "<button style='display: inline-block;'><a target= 'blank' href='file:///C:\laragon\www\archivos\\" . $row["nombre_archivo"] . "'>Descargar</a></button> ";
-                                
                                 
                                 // Botón Compartir------------------------------------------------------------------------------------------------------------
                                 echo '
