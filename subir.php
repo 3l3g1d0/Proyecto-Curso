@@ -8,23 +8,12 @@ if (!isset($_SESSION['nickname'])) {
 <?php
 if (isset($_SESSION['nickname'])) {
    
-    $servername = "127.0.0.1";
-    $username = "root";
-    $password = "";
-    $dbname = "usuarios";
-
-    // Crear conexión
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Verificar la conexión
-    if ($conn->connect_error) {
-        die("Conexión fallida: " . $conn->connect_error);
-    }
-
+    
+    include "conexion.php";
     // Obtener el ID del usuario basado en el nickname
     $nickname = $_SESSION['nickname'];
     $sql = "SELECT id FROM usuarios WHERE nombre = '".$nickname."'";
-    $result = $conn->query($sql);
+    $result = $mysqli->query($sql);
     
     // Verificar si se encontró el usuario
     if ($result->num_rows > 0) {
@@ -43,17 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     if (isset($_SESSION['id_usuario'])) {
         $idUsuario = $_SESSION['id_usuario'];
 
-        $servername = "127.0.0.1";
-        $username = "root";
-        $password = "";
-        $dbname = "usuarios";
-
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        if ($conn->connect_error) {
-            die("Conexión fallida: " . $conn->connect_error);
-        }
-
+        
+        include "conexion.php";
         if (is_uploaded_file($_FILES['imagen']['tmp_name']))
         {
             $nombreDirectorio="C:\laragon\www";
@@ -64,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 $nombreDirectorio . "\archivos\\" . $nombreFichero); 
             
             $sql = "INSERT INTO archivos (nombre_archivo, tamaño, extension, idUsuario) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
+            $stmt = $mysqli->prepare($sql);
 
             $stmt->bind_param("sisi", $nombreFichero, $fileSize, $fileExtension, $idUsuario);
         
