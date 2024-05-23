@@ -39,7 +39,7 @@ if (!isset($_SESSION['nickname'])) {
                 <th>Editar</th>
             </tr>
             <?php
-           
+      /*     
             $servername = "127.0.0.1";
             $username = "root";
             $password = "";
@@ -50,10 +50,11 @@ if (!isset($_SESSION['nickname'])) {
             if ($conn->connect_error) {
                 die("Conexión fallida: " . $conn->connect_error);
             }
-           
+        */
+include "conexion.php";   
             
             $sql = "SELECT id, nombre, departamento FROM usuarios";
-            $result = $conn->query($sql);
+            $result = $mysqli->query($sql);
            
             if ($result->num_rows > 0) {
                 
@@ -63,7 +64,7 @@ if (!isset($_SESSION['nickname'])) {
             } else {
                 echo "0 resultados";
             }
-            $conn->close();
+            $mysqli->close();
             ?>
         </table>
 
@@ -71,16 +72,16 @@ if (!isset($_SESSION['nickname'])) {
         <?php
         if(isset($_POST['userid']) && isset($_POST['department'])) {
             
-            $conn = new mysqli($servername, $username, $password, $dbname);
+            $mysqli = new mysqli($servername, $username, $password, $dbname);
             $userId = $_POST['userid'];
             $newDepartment = $_POST['department'];
             $updateSql = "UPDATE usuarios SET departamento='$newDepartment' WHERE id='$userId'";
-            if ($conn->query($updateSql) === TRUE) {
+            if ($mysqli->query($updateSql) === TRUE) {
                 echo "Departamento actualizado con éxito.";
             } else {
-                echo "Error al actualizar el departamento: " . $conn->error;
+                echo "Error al actualizar el departamento: " . $mysqli->error;
             }
-            $conn->close();
+            $mysqli->close();
         }
         ?>
         <form method="post">
