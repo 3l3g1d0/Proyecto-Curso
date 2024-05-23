@@ -2,7 +2,7 @@
 
 if (isset($_REQUEST['nickname'])) {
     session_start(); 
-
+/*
     $servername = "127.0.0.1";
     $username = "root";
     $password = "";
@@ -16,7 +16,8 @@ if (isset($_REQUEST['nickname'])) {
         die("Conexión fallida: " . $mysqli->connect_error);
     }
 
-
+*/
+include "conexion.php";
     $nickname = $_REQUEST['nickname']; 
     $contrasena = $_REQUEST['contrasena']; 
 
