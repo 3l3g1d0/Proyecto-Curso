@@ -35,4 +35,3 @@ session_start();
         <p class="small">ProyectoSintesis &copy; 2023. Todos los derechos reservados.</p>
     </footer>
 </body>
-</html>
