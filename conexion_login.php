@@ -1,10 +1,10 @@
 <?php
-session_start(); 
 if (isset($_REQUEST['nickname'])) {
-
+    session_start(); 
+/*
     $servername = "127.0.0.1";
-    $username = "root";
-    $password = "";
+    $username = "admin";
+    $password = "admin";
     $dbname = "usuarios";
 
     
@@ -14,7 +14,8 @@ if (isset($_REQUEST['nickname'])) {
     if ($mysqli->connect_error) {
         die("Conexión fallida: " . $mysqli->connect_error);
     }
-
+*/
+include "conexion.php";
     $nickname = $_REQUEST['nickname'];
     $contrasena = $_REQUEST['contrasena'];
 
@@ -45,11 +46,6 @@ if (isset($_REQUEST['nickname'])) {
 </head>
 <body>
     <header>
-    <?php
-                if (isset($_SESSION['nickname'])) {
-                    echo '<div class="user-info">Bienvenido: ' . $_SESSION['nickname'] . '</div>';
-                }
-            ?>
         <h1>ASIX Projecte</h1>
         <nav class="top-nav">
             <div class="menu-container">
@@ -60,6 +56,12 @@ if (isset($_REQUEST['nickname'])) {
                     <li><a href="mis-archivos.php">Mis archivos</a></li>
                 </ul>
             </div>
+            <?php
+            
+            if (isset($_SESSION['nickname'])) {
+                echo '<div class="user-info">' . $_SESSION['nickname'] . '</div>';
+            }
+            ?>
         </nav>
     </header>
 
