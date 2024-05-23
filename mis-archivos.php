@@ -6,25 +6,23 @@ if (!isset($_SESSION['nickname'])) {
 }
 ?>
 <?php
+// Detecta el sistema operativo
+if (stripos(PHP_OS, 'WIN') === 0) {
+    // Ruta para Windows
+    $ruta_archivo = 'file:///C:/laragon/www/archivos/' . $row["nombre_archivo"];
+} else {
+    // Ruta para Linux
+    $ruta_archivo = 'file:///var/www/archivos/' . $row["nombre_archivo"];
+}
+?>
+<?php
 if (isset($_SESSION['nickname'])) {
    
-    $servername = "127.0.0.1";
-    $username = "root";
-    $password = "";
-    $dbname = "usuarios";
-
-    // Crear conexión
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Verificar la conexión
-    if ($conn->connect_error) {
-        die("Conexión fallida: " . $conn->connect_error);
-    }
-
+    include "conexion.php";
     // Obtener el ID del usuario basado en el nickname
     $nickname = $_SESSION['nickname'];
     $sql = "SELECT id FROM usuarios WHERE nombre = '".$nickname."'";
-    $result = $conn->query($sql);
+    $result = $mysqli->query($sql);
     
     // Verificar si se encontró el usuario
     if ($result->num_rows > 0) {
@@ -46,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['compartir'])) {
 
     $sql = "INSERT INTO archivos (nombre_archivo, tamaño, extension, idUsuario) VALUES (?, ?, ?, ?)";
     //echo $sql;
-    $stmt = $conn->prepare($sql);
+    $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("sisi", $nombreArchivo, $fileSize, $tipoArchivo, $idUsuarioCompartir);
 
     if ($stmt->execute()) {
@@ -60,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
 
     $sql = "DELETE FROM archivos WHERE id_archivo = ".$id_archivo;
     //echo $sql;
-    $stmt = $conn->prepare($sql);
+    $stmt = $mysqli->prepare($sql);
 
     if ($stmt->execute()) {
         echo "Archivo eliminado exitosamente.";
@@ -85,6 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
                     echo '<div class="user-info">Bienvenido: ' . $_SESSION['nickname'] . '</div>';
                 }
             ?>
+
         <h1>ASIX Projecte - Mis Archivos</h1>
         <nav>
             <ul>
@@ -112,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
     
                     if (isset($_SESSION['id_usuario'])) {
                         $idUsuario = $_SESSION['id_usuario'];
-                
+                /*
                         $servername = "127.0.0.1";
                         $username = "root";
                         $password = "";
@@ -120,13 +119,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
                 
                         $conn = new mysqli($servername, $username, $password, $dbname);
                 
-                        if ($conn->connect_error) {
+                        if ($mysqli->connect_error) {
                             die("Conexión fallida: " . $conn->connect_error);
                         }
-                        
+                  */      
                         // Consulta SQL para seleccionar todos los archivos del usuario actual
                         $sql = "SELECT id_archivo, nombre_archivo, tamaño, extension FROM archivos WHERE idUsuario = ?";
-                        $stmt = $conn->prepare($sql);
+                        $stmt = $mysqli->prepare($sql);
                         $stmt->bind_param("i", $idUsuario);
                         $stmt->execute();
                         $result = $stmt->get_result();
@@ -141,7 +140,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
                                 echo "Extensión: " . $row["extension"] . "<br>";
                 
                                 // Botón Descargar------------------------------------------------------------------------------------------------------------
-                                echo "<button style='display: inline-block;'><a target= 'blank' href='file:///C:\laragon\www\archivos\\" . $row["nombre_archivo"] . "'>Descargar</a></button> ";
+                                echo "<button style='display: inline-block;'>
+                                        <a target='blank' href='<?php echo $ruta_archivo; ?>'>Descargar</a>
+                                        </button>";
                                 
                                 // Botón Compartir------------------------------------------------------------------------------------------------------------
                                 echo '
