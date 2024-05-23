@@ -27,40 +27,33 @@ if (isset($_SESSION['nickname'])) {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-    
+if ($_SERVER["REQUEST_METHOD"] == "POST" && ($_REQUEST['sube']=="Subir")) {    
     if (isset($_SESSION['id_usuario'])) {
-        $idUsuario = $_SESSION['id_usuario'];
-
-        
-        include "conexion.php";
+	$idUsuario = $_SESSION['id_usuario'];
         if (is_uploaded_file($_FILES['imagen']['tmp_name']))
-        {
-            $nombreDirectorio="C:\laragon\www";
+	{
+            $nombreDirectorio="/var/www/archivos/";
             $nombreFichero = $_FILES['imagen']['name'];
             $fileSize = $_FILES['imagen']['size'];
             $fileExtension = pathinfo($nombreFichero, PATHINFO_EXTENSION);
-            move_uploaded_file ($_FILES['imagen']['tmp_name'],
-                $nombreDirectorio . "\archivos\\" . $nombreFichero); 
-            
-            $sql = "INSERT INTO archivos (nombre_archivo, tamaño, extension, idUsuario) VALUES (?, ?, ?, ?)";
-            $stmt = $mysqli->prepare($sql);
-
-            $stmt->bind_param("sisi", $nombreFichero, $fileSize, $fileExtension, $idUsuario);
-        
-            if ($stmt->execute() === TRUE) {
+           move_uploaded_file ($_FILES['imagen']['tmp_name'],
+		   $nombreDirectorio . $nombreFichero);
+            $sql = "INSERT INTO archivos (nombre_archivo,tamao,extension,idUsuario) VALUES (?,?,?,?)";
+	    $stmt = $mysqli->stmt_init();
+	    $stmt->prepare($sql);
+	    $stmt->bind_param("sisi", $nombreFichero, $fileSize, $fileExtension, $idUsuario);
+	    if($stmt->execute()){
                 echo "El archivo se ha subido correctamente.";
             } else {
                 echo "Error al subir el archivo: " . $stmt->error;
-            }
-
-            $stmt->close();
+	    }
+	    $stmt->close();
         } else {
-            echo "No se ha podido subir el archivo\n";
+	   echo "No se ha podido subir el archivo\n";
         }
 
     } else {
-        echo "ID de usuario no encontrado.";
+	echo "ID de usuario no encontrado.";
     }
 }
 ?>
@@ -100,16 +93,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         <div class="upload-column">
             <div class="start-box">
                 <p>Subir Archivo</p>
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="subir.php" method="post" enctype="multipart/form-data">
                     <input type="file" name="imagen" id="imagen">
-                    <button type="submit" class="start-button" name="submit">Subir</button>
+                    <input type="submit" class="start-button" name="sube" value="Subir">
                 </form>
             </div>
         </div>
     </section>
     
     <footer>
-        <p class="small">ProyectoSintesis &copy; 2023. Todos los derechos reservados.</p>
+        <p class="small">ProyectoSintesis &copy; 2024. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>
